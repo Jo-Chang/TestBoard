@@ -30,10 +30,10 @@
 	<script type="text/javascript">
 		var url = "<?php echo base_url();?>";
 
-		function delete_confirm(id1, id2, mode, number) {
+		/*function delete_confim(id1, id2, mode, number) {
 			if (confirm("If you click the Okay button, all the related data will be deleted.\n\nDo you want to continue?")) {
 				if (number == 0) {
-					window.location.href = url + "index.php/manager/delete_problem/" + id1 + "/" + id2 + "/" + mode;
+					window.location.href = url + "testBoard/index.php/manager/delete_problem/" + id1 + "/" + id2 + "/" + mode;
 				} else if (number == 1) {
 					window.location.href = url + "index.php/manager/del_cp/" + id1 + "/" + id2 + "/" + mode;
 				} else if (number == 2) {
@@ -48,7 +48,7 @@
 			} else {
 				return false;
 			}
-		}
+		}*/
 
 		function exception_confirm(id1, id2, mode, number) {
 			if (confirm("If you click the Okay button, this student will be excepted from IP Check Once.\n\nDo you want to continue?")) {
@@ -96,3 +96,52 @@
 
 
 </head>
+<body>
+<?php
+if ($this->session->flashdata('message')) {
+	?>
+	<script> alert('<?=$this->session->flashdata('message')?>') </script>
+	<?php
+}
+?>
+<div class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/testBoard/index.php/main">Test Board</a>
+		</div>
+
+		<!-- Everything you want hidden at 940px or less, place within here -->
+		<div class="navbar-collapse collapse" id="test">
+			<ul class="nav navbar-nav navbar-right">
+				<?php
+				if ($this->session->userdata('is_login')) {
+					?>
+					<li><a href="/testBoard/index.php/auth/mypage"><span
+									class="glyphicon glyphicon-user"></span> <?= $this->session->userdata('user_id'); ?>
+						</a></li>
+					<li><a href="/testBoard/index.php/auth/logout"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a>
+					</li>
+					<?php
+				} else {
+					?>
+					<li><a href="/testBoard/index.php/auth/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					<li><a href="/testBoard/index.php/auth/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="container-fluid" style="margin-left:5%; margin-right:5%">
+	<div class="row">

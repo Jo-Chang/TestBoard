@@ -3,21 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 *              http://example.com/index.php/welcome
-	 *      - or -
-	 *              http://example.com/index.php/welcome/index
-	 *      - or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
 
 	function __construct() {
 		parent::__construct();
@@ -30,6 +15,12 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
+		$this->load->library('session');
+
+	/*	if (!$this->session->userdata('is_login')) {
+			redirect('/testBoard/auth/login/');
+		}
+	 */
 		$this->load->view('header_v');
 
 		$this->lists();
@@ -41,7 +32,7 @@ class Main extends CI_Controller {
 	public function lists()
 	{
 
-	//	$uid = $this->session->userdata('user_id');
+		$uid = $this->session->userdata('user_id');
 
 		$search_type = '';
 		$search_word = $page_url = '';
@@ -67,8 +58,10 @@ class Main extends CI_Controller {
 		
 
 		$this->load->library('pagination');
-		$url = "testBoard/index.php/Main/lists/".$page_url."/page/";
+//		$url = "testBoard/index.php/Main/lists/".$page_url."/page/";
+		$url = "testBoard/index.php/Main/lists";
 
+		$config['display_pages'] = TRUE;
 		$config['base_url'] = base_url() . $url;
 		$config['uri_segment'] = $uri_segment;
 		$config['per_page'] = 5;
@@ -87,10 +80,11 @@ class Main extends CI_Controller {
 		$limit = $config['per_page'];
 
 		
-		$data['problems'] = $this->board_m->getList('', $start, $limit, $search_type, $search_word);
+		$data['list'] = $this->board_m->getList('', $start, $limit, $search_type, $search_word);
 
 		$this->load->view('board_v', array('data' => $data, 'id' => '', 'mode' => '', 'post' => $post));
 	}
+
 
 	public function segment_explode($seg)
 	{
@@ -109,7 +103,8 @@ class Main extends CI_Controller {
 		$seg_exp = explode("/", $seg);
 		return $seg_exp;
 	}
-	
+
+
 	public function url_explode($url, $key)
 	{
 
@@ -122,6 +117,7 @@ class Main extends CI_Controller {
 			}
 		}
 	}
+
 
 	public function _pagenationDesignConfig($config)
 	{

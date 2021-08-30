@@ -16,7 +16,7 @@
 			</thead>
 			<tbody>
 			<?php
-			foreach ($data['problems'] as $lt) {
+			foreach ($data['list'] as $lt) {
 			?>
 				<tr>
 					<td style="text-align:center"> <?php echo $lt -> ID;?> </td>

@@ -9,7 +9,7 @@ class Board_m extends CI_Model {
 
 public function getList($type, $offset, $limit, $search_type, $word)
 	{
-		echo "type : ".$type."offset : ".$offset."limit : ".$limit."search_type : ".$search_type."word : ".$word; 
+//		echo "type : ".$type."offset : ".$offset."limit : ".$limit."search_type : ".$search_type."word : ".$word; 
 		if ($type == 'cnt') {
 			if($search_type == 'title'){
 				$this->db->select('*');
