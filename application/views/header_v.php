@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Test Board</title>
-	<link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="/testBoard/static/img/favicon.ico" type="image/x-icon"/>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +15,7 @@
 
 	<!-- Bootstrap -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link href="/static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/testBoard/static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- DateTimePicker -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css"
@@ -25,15 +25,15 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 
 	<!-- Custom CSS -->
-	<link href="/static/css/style.css" rel="stylesheet">
+	<link href="/testBoard/static/css/style.css" rel="stylesheet">
 
 	<script type="text/javascript">
 		var url = "<?php echo base_url();?>";
 
-		/*function delete_confim(id1, id2, mode, number) {
+		/*function delete_confirm(id1, id2, mode, number) {
 			if (confirm("If you click the Okay button, all the related data will be deleted.\n\nDo you want to continue?")) {
 				if (number == 0) {
-					window.location.href = url + "testBoard/index.php/manager/delete_problem/" + id1 + "/" + id2 + "/" + mode;
+					window.location.href = url + "index.php/manager/delete_problem/" + id1 + "/" + id2 + "/" + mode;
 				} else if (number == 1) {
 					window.location.href = url + "index.php/manager/del_cp/" + id1 + "/" + id2 + "/" + mode;
 				} else if (number == 2) {
@@ -48,7 +48,7 @@
 			} else {
 				return false;
 			}
-		}*/
+		}
 
 		function exception_confirm(id1, id2, mode, number) {
 			if (confirm("If you click the Okay button, this student will be excepted from IP Check Once.\n\nDo you want to continue?")) {
@@ -90,13 +90,15 @@
 			}
 
 		}
-
+*/
+		 
 		var timeDiff =  new Date("<?php echo date("Y/m/d H:i:s")?>").getTime() - new Date().getTime();
 	</script>
 
 
 </head>
 <body>
+
 <?php
 if ($this->session->flashdata('message')) {
 	?>

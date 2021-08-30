@@ -15,22 +15,22 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->library('session');
-
-	/*	if (!$this->session->userdata('is_login')) {
-			redirect('/testBoard/auth/login/');
-		}
-	 */
-		$this->load->view('header_v');
-
+	
 		$this->lists();
 
-		$this->load->view('footer_v');
 	}
 
 
 	public function lists()
 	{
+		$this->load->library('session');
+
+	       /* if (!$this->session->userdata('is_login')) {
+                        redirect('/auth/login');
+                }
+	 */
+                $this->load->view('header_v');
+
 
 		$uid = $this->session->userdata('user_id');
 
@@ -56,10 +56,11 @@ class Main extends CI_Controller {
 			$uri_segment = 5;
 		}
 		
+		$config['total_rows']=$this->board_m->getList('cnt', null, null, $search_type, $search_word);
 
 		$this->load->library('pagination');
-//		$url = "testBoard/index.php/Main/lists/".$page_url."/page/";
-		$url = "testBoard/index.php/Main/lists";
+		$url = "testBoard/index.php/Main/lists/".$page_url."/page/";
+		//$url = "testBoard/index.php/Main/lists";
 
 		$config['display_pages'] = TRUE;
 		$config['base_url'] = base_url() . $url;
@@ -83,6 +84,8 @@ class Main extends CI_Controller {
 		$data['list'] = $this->board_m->getList('', $start, $limit, $search_type, $search_word);
 
 		$this->load->view('board_v', array('data' => $data, 'id' => '', 'mode' => '', 'post' => $post));
+
+		$this->load->view('footer_v');
 	}
 
 

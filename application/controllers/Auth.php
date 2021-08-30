@@ -15,11 +15,10 @@ class Auth extends CI_Controller
 	public function login()
 	{
 		$this->load->view('header_v');
-		//$notice = $this->user_m->getNotice();
+
 		$this->load->view('login_v', array('returnURL' => $this->input->get('returnURL')));
 
 		$this->load->view('footer_v');
-		//$this->load->view('testA');
 	}
 
 	/* log-out 처리 */
