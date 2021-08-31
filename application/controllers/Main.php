@@ -6,10 +6,9 @@ class Main extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this -> load -> database();
+//		$this -> load -> database();
 		$this -> load -> model('board_m');
 		$this -> load -> helper(array('url', 'date'));
-		//session_start();
 	}
 
 
@@ -23,12 +22,12 @@ class Main extends CI_Controller {
 
 	public function lists()
 	{
-		$this->load->library('session');
-
-	       /* if (!$this->session->userdata('is_login')) {
+	
+		if (!$this->session->userdata('is_login')) {
+			$this->load->helper('url');
                         redirect('/auth/login');
                 }
-	 */
+	
                 $this->load->view('header_v');
 
 
@@ -36,15 +35,14 @@ class Main extends CI_Controller {
 
 		$search_type = '';
 		$search_word = $page_url = '';
-		$uri_segment = 5;
-		
 		
 		$post = array("type" => $this->input->get('type'),
 			"word" => $this->input->get('search_word'));
 
-		$uri_array = $this->segment_explode($this->uri->uri_string());
-
+		$uri_array = $this->segment_explode($this->uri->uri_string());	
+	
 		if (in_array('q', $uri_array)) {
+		
 			$search_type = rawurldecode($this->url_explode($uri_array, 'p'));
 
 			$search_word = rawurldecode($this->url_explode($uri_array, 'q'));
@@ -53,42 +51,16 @@ class Main extends CI_Controller {
 
 			$page_url = '/q/' . $search_word . '/p/' . $search_type;
 
-			$uri_segment = 5;
 		}
 		
-		$config['total_rows']=$this->board_m->getList('cnt', null, null, $search_type, $search_word);
+		$data['list'] = $this->board_m->getList($search_type, $search_word);
 
-		$this->load->library('pagination');
-		$url = "testBoard/index.php/Main/lists/".$page_url."/page/";
-		//$url = "testBoard/index.php/Main/lists";
-
-		$config['display_pages'] = TRUE;
-		$config['base_url'] = base_url() . $url;
-		$config['uri_segment'] = $uri_segment;
-		$config['per_page'] = 5;
-		$config = $this->_pagenationDesignConfig($config);
-		$this->pagination->initialize($config);
-		$data['pagination'] = $this->pagination->create_links();
-
-		$page = $this->uri->segment($uri_segment, 1);
-
-		if ($page > 1) {
-			$start = (($page / $config['per_page'])) * $config['per_page'];
-		} else {
-			$start = ($page - 1) * $config['per_page'];
-		}
-
-		$limit = $config['per_page'];
-
-		
-		$data['list'] = $this->board_m->getList('', $start, $limit, $search_type, $search_word);
-
-		$this->load->view('board_v', array('data' => $data, 'id' => '', 'mode' => '', 'post' => $post));
+	 	$this->load->view('board_v', array('data' => $data, 'post' => $post));
 
 		$this->load->view('footer_v');
 	}
 
-
+	
 	public function segment_explode($seg)
 	{
 		$len = strlen($seg);
@@ -119,6 +91,7 @@ class Main extends CI_Controller {
 				return $url[$k];
 			}
 		}
+
 	}
 
 
@@ -155,5 +128,7 @@ class Main extends CI_Controller {
 		return $config;
 
 	}
+
+
 }
 

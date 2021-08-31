@@ -8,7 +8,8 @@ class Auth extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('user_m');
+                $this -> load -> model('user_m');
+//                $this -> load -> helper(array('url', 'date'));
 	}
 
 	/* 로그인페이지 출력 */
@@ -44,19 +45,11 @@ class Auth extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			$this->load->view('register_v');
 		} else {
-			$hash = password_hash($this->input->post('password'), PASSWORD_BCRYPT);
-
-			$this->user_m->add(array(
-				'id' => $this->input->post('id'),
-				'password' => $hash,
-				'name' => $this->input->post('name'),
-		//		'email' => $this->input->post('email'),
-			));
-			$this->session->set_flashdata('message', 'Welcome to Online Judge !!');
+			$this->user_m->add(array('id'=>$this->input->post('id'),'password'=>$this->input->post('password'),'name'=>$this->input->post('name')));
+			$this->session->set_flashdata('message','Register Success !!');
 			$this->load->helper('url');
 			redirect('/main');
 		}
-
 		$this->load->view('footer_v');
 	}
 
@@ -64,69 +57,18 @@ class Auth extends CI_Controller
 	public function authentication(){
 			$user = $this->user_m->getById(array('id' => $this->input->post('id')));
 
-			if (!($this->input->post('id') == $user->ID && password_verify($this->input->post('password'), $user->password))){//ID,password 불일치
-				$this->user_m->addloginlog($this->input->post('id'), $this->input->ip_address(), false);
+			if (!($this->input->post('id') == $user->ID && $this->input->post('password') == $user->password)){//ID,password 불일치
 				$this->session->set_flashdata('message', '가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.');
 				$this->login_failed();
 			}else{//ID,password 일치
-				$ip = $this->input->ip_address();
-				$uid = $this->input->post('id');
 
 				$this->login_success();
-				/*
-				if($user->sysmgr==1){
-					$this->login_success();
-				}else{
-				if($this->user_m->isExamingIP($ip)){//Exam 테이블에 지금 접속하려는 IP와 같은 IP가 있다.
-					if($this->user_m->isExamingID($uid)){//Exam 테이블에 지금 접속하려는 ID와 같은 ID가 있다.
-						if($this->user_m->isExamingIDIP($uid,$ip)){//접속하려는 IP와 ID를 갖는 튜플이 있다.
-							if($this->user_m->isValidByIDAndException($uid,0)){
-								$this->login_success();
-							}elseif($this->user_m->isValidByIDAndException($uid,1)){
-								$this->session->set_flashdata('message', '[시스템 에러]\r\n발생할 수 없는 경우입니다.\n');
-								$this->login_failed();
-							}elseif($this->user_m->isValidByIDAndException($uid,3)){
-								$this->session->set_flashdata('message', '[로그인 차단]\r\n이미 1회에 한하여 로그인이 허용되었던 사용자입니다.\n');
-								$this->login_failed();
-							}
-						}else{//접속하려는 IP와 ID를 갖는 튜플이 없다.
-							if($this->user_m->isValidByIDAndException($uid,0)){
-								$this->session->set_flashdata('message', '[로그인 차단]\r\n이미 사용 중인 ID입니다.\n직전에 사용했던 IP만이 로그인이 허용됩니다.');
-								$this->login_failed();
-							}elseif($this->user_m->isValidByIDAndException($uid,1)){
-								$this->login_success();
-							}elseif($this->user_m->isValidByIDAndException($uid,3)){
-								$this->session->set_flashdata('message', '[로그인 차단]\r\n이미 1회에 한하여 로그인이 허용되었던 사용자입니다.\n');
-								$this->login_failed();
-							}
-						}
-					}else{//Exam 테이블에 지금 접속하려는 ID와 같은 ID가 없다.
-						$this->session->set_flashdata('message', '[로그인 차단]\r\n이미 사용 중인 IP입니다.\n현재 WiFi 환경일 경우, 다른 WiFi나 유선 랜 사용을 권장합니다.');
-						$this->login_failed();
-					}
-				}else{//Exam 테이블에 지금 접속하려는 IP와 같은 IP가 없다.
-					if($this->user_m->isExamingID($uid)){//Exam 테이블에 지금 접속하려는 ID와 같은 ID가 있다.
-						if($this->user_m->isValidByIDAndException($uid,0)){
-							$this->session->set_flashdata('message', '[로그인 차단]\r\n이미 사용 중인 ID입니다.\n직전에 사용했던 IP만이 로그인이 허용됩니다.');
-							$this->login_failed();
-						}elseif($this->user_m->isValidByIDAndException($uid,1)){
-							$this->login_success();
-						}elseif($this->user_m->isValidByIDAndException($uid,3)){
-							$this->session->set_flashdata('message', '[로그인 차단]\r\n이미 1회에 한하여 로그인이 허용되었던 사용자입니다.\n');
-							$this->login_failed();
-						}
-					}else{//Exam 테이블에 지금 접속하려는 ID와 같은 ID가 없다.
-						$this->login_success();
-					}
-				}
-				}*/
 		}
 	}
 
 	public function login_success(){
 		$user = $this->user_m->getById(array('id' => $this->input->post('id')));
 		$this->user_m->sessionDestroy($user->ID, $this->input->ip_address());
-		$this->user_m->addloginlog($user->ID, $this->input->ip_address(), true);
 
 		$this->session->set_userdata('is_login', true);
 		$this->session->set_userdata('user_id', $user->ID);
@@ -173,12 +115,11 @@ class Auth extends CI_Controller
 			redirect('/auth/mypage');
 		}
 
-		if (password_verify($this->input->post('password'), $user_info->password)) {
+		if ($this->input->post('password') == $user_info->password) {
 			$data = array(
 				'ID' => $uid,
-				'password' => password_hash($this->input->post('newpassword'), PASSWORD_BCRYPT),
+				'password' => $this->input->post('newpassword'),
 				'name' => $this->input->post('name'),
-			//	'email' => $this->input->post('email'),
 			);
 			$this->user_m->modify_info($data);
 			$this->session->set_flashdata('message', 'Complete !!');

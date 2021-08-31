@@ -4,7 +4,7 @@
 		<div class="page-header">
 			<h2 style="margin-bottom:0px">Change your information</h2>
 		</div>
-		<form name="mypage" action="/index.php/auth/modify_myinfo" onsubmit="return mypagecheck()" method="post">
+		<form name="mypage" action="/testBoard/index.php/auth/modify_myinfo" onsubmit="return mypagecheck()" method="post">
 			<div class="form-group">
 				<label for="id">Student ID</label>
 				<input type="text" id="id" name="id" class="form-control" style="width:40%" value="<?= $user_id ?>"

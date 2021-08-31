@@ -4,10 +4,10 @@
 		<div class="alert alert-warning" role="alert">
 	                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         	        <span class="sr-only">Error:</span>
-        		학생의 경우 학번으로, 교·강사의 경우 학교 E-mail의 아이디로 회원가입하시길 바랍니다.
+			Test Board Register
 		</div>
 		<?php echo validation_errors(); ?>
-		<form class="form-horizontal" action="/index.php/auth/register" method="post">
+		<form class="form-horizontal" action="/testBoard/index.php/auth/register" method="post">
 
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="id">ID</label>

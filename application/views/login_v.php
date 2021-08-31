@@ -4,8 +4,7 @@
 			<div class="modal-header">
 				<h3>Log in</h3>
 			</div>
-			<form class="form-horizontal"
-			      action="<?= site_url('/testBoard/index.php/auth/authentication?returnURL=' . rawurlencode($returnURL)) ?>" method="POST">
+			<form class="form-horizontal" action="<?= site_url('/auth/authentication?returnURL='. rawurlencode($returnURL)) ?>" method="POST">
 				<div class="modal-body">
 
 					<div class="form-group">
@@ -27,7 +26,7 @@
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="Login"/>
 				</div>
-			<!--/form-->
+			</form>
 		</div>
 	</div>
 </div>

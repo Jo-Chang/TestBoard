@@ -53,11 +53,6 @@
 		</form>
 	</div>
 
-	<div class="row">
-		<div class="col-md-12 text-center">
-			<?php echo $data['pagination']; ?>
-		</div>
-	</div>
 
 </div>
 
@@ -77,8 +72,8 @@ $(document).ready(function () {
 			else if(search_type ==2)search_type='created_user';
 
 
-			//var act = "testBoard/index.php/Main/lists/q/"+ search_wd +"/p/"+search_type+"/page/1";
-			var act = "testBoard/index.php/Main/lists";
+			var act = "/testBoard/index.php/Main/lists/q/"+ search_wd +"/p/"+search_type;
+			//var act = "testBoard/index.php/Main/lists";
 			$("#pb_search").attr('action', act).submit();
 		}
 
