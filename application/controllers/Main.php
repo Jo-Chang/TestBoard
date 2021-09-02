@@ -95,40 +95,55 @@ class Main extends CI_Controller {
 	}
 
 
-	public function _pagenationDesignConfig($config)
+	public function add_list_page()
+	{
+		$this->load->view('header_v');
+		
+		$this->load->view('add_list_v');
+ 
+		$this->load->view('footer_v');
+	}
+
+
+	public function add_list()
+	{
+		$uid=$this->session->userdata('user_id');
+
+		$option=new stdClass();
+		$option->title=$this->input->post('title');
+		$option->description=$this->input->post('description');
+		$option->created_user=$this->session->userdata('user_id');
+
+		$this->board_m->add_list($option);
+
+		redirect("/main");
+	}
+
+
+	public function edit_list()
 	{
 
-		$config['full_tag_open'] = '<nav><ul class="pagination">';
-		$config['full_tag_close'] = '</ul></nav>';
-
-		$config['first_link'] = '&laquo;';
-		$config['first_tag_open'] = '<li class="prev page">';
-		$config['first_tag_close'] = '</li>';
-
-		$config['last_link'] = '&raquo;';
-		$config['last_tag_open'] = '<li class="next page">';
-		$config['last_tag_close'] = '</li>';
-
-		//$config['next_link'] = '&rarr;';
-		$config['next_link'] = false;
-		$config['next_tag_open'] = '<li class="next page">';
-		$config['next_tag_close'] = '</li>';
-
-		//$config['prev_link'] = '&larr;';
-		$config['prev_link'] = false;
-		$config['prev_tag_open'] = '<li class="prev page">';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class="active"><a href="">';
-		$config['cur_tag_close'] = '</a></li>';
-
-		$config['num_tag_open'] = '<li class="page">';
-		$config['num_tag_close'] = '</li>';
-
-		return $config;
 
 	}
 
+
+	public function delete_list()
+	{
+
+
+	}
+	
+
+	public function show_forum($id)
+	{
+		$this->load->view('header_v');
+
+
+		$forum=$this->board_m->get_forum($id);
+		$this->load->view('show_forum_v',array('forum'=>$forum));
+
+		$this->load->view('footer_v');
+	}
 
 }
 

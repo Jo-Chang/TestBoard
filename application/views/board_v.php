@@ -18,15 +18,16 @@
 			<?php
 			foreach ($data['list'] as $lt) {
 			?>
-				<tr>
-					<td style="text-align:center"> <?php echo $lt -> ID;?> </td>
-					<td style="text-align:center"> <?php echo $lt -> title;?> </td>
+				<tr> 
+					<td style="text-align:center"><?php echo $lt -> ID;?> </a></td>
+					<td style="text-align:center"><a href="/testBoard/index.php/main/show_forum/<?= $lt -> ID?>">
+ <?php echo $lt -> title;?> </a> </td>
 					<td style="text-align:center"><?php echo $lt -> created_user;?></td>
 					<td style="text-align:center">
 						<time datetime="<?php echo mdate("%Y-%M-%j", human_to_unix($lt -> created)); ?>"><?php echo mdate("%Y-%M-%j", human_to_unix($lt -> created));?>
 						</time>
 					</td>
-				</tr>
+			</a>	</tr>
 			<?php
 			}
 			?>
@@ -35,7 +36,11 @@
 
 		</table>
 	</div>
-	
+
+	<div align="right">
+		<a href="/testBoard/index.php/Main/add_list_page" class="btn btn-default" align="right">Write a Forum</a>
+	</div>
+
 	<div style="vertical-align:middle; text-align:center">
 		<form id="pb_search" method="get" class="form-inline">
 			<select name="type" id="selectbox"  class="form-control input-sm">
